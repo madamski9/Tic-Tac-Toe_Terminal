@@ -2,23 +2,27 @@ import keyboard
 import time
 import os
 
-plansza = [['                    ' for _ in range(3)] for _ in range(3)]
-
 def drukuj_plansze():
     os.system('clear') 
-    sciana = [
-        " | ", " | ", " | ", " | ", " | ", " | ", " | ", " | "
-    ]
+    plansza = [[" " * 20 for _ in range(3)] for _ in range(3)]
+    sciana = [ " | " for _ in range(7) ]
+    poziom = [ "-" for _ in range(66) ]
     for i, row in enumerate(plansza):
         for linia in sciana:
             print(linia.join(row))
         if i < 2:
-            print('------------------------------------------------------------------')
+            print("".join(poziom))
 drukuj_plansze()
+def on_key_event(event):
+    if event.event_type == keyboard.KEY_DOWN:
+        if event.name == "right":
+            print("Naciśnięto strzałkę w prawo")
+        else:
+            print(f"Naciśnięto klawisz: {event.name}")
+
+keyboard.hook(on_key_event)
+
 while True:
-    key = keyboard.read_key()
-    if key == 12:
-        print("nacisnales q")
-        break
     time.sleep(0.1)
+
         
