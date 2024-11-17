@@ -69,10 +69,27 @@ def key_engine(gracz):
         aktualizuj_plansze(2, 2, wzor)
     drukuj_plansze("GRACZ 1" if gracz % 2 != 0 else "GRACZ 2")
 
-def test():
-    event = keyboard.read_event()
-    if event:
-        print(event.name)
+def winning_engine():
+    for row in plansza:
+        if row[0] == row[1] == row[2] and row[0] != " ":
+            return True
+
+    for col in range(3):
+        if plansza[0][col] == plansza[1][col] == plansza[2][col] and plansza[0][col] != " ":
+            return True
+
+    if plansza[0][0] == plansza[1][1] == plansza[2][2] and plansza[0][0] != " ":
+        return True
+    if plansza[0][2] == plansza[1][1] == plansza[2][0] and plansza[0][2] != " ":
+        return True
+
+    return False
+
+def tie():
+    for row in plansza:
+        if " " in row:
+            return False
+    return True
 
 ktory_gracz = 0
 while True:
@@ -81,6 +98,15 @@ while True:
         break
     if event.event_type == keyboard.KEY_DOWN:
         key_engine(ktory_gracz)
-        print(ktory_gracz)
+        if winning_engine():
+            print("\n\n\n")
+            print(" "*72+f"GRACZ {1 if ktory_gracz % 2 == 0 else 2} WYGRYWA!")
+            print("\n\n\n")
+            break
+        if tie():
+            print("\n\n\n")
+            print(" "*72+"REMIS!")
+            print("\n\n\n")
+            break
         ktory_gracz += 1
     time.sleep(0.1)
